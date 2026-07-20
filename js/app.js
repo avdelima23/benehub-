@@ -492,6 +492,23 @@ async function mostrarPortal() {
 
   await cargarBeneficios();
   renderizarBeneficios();
+  await actualizarEnlaceAdmin();
+}
+
+async function actualizarEnlaceAdmin() {
+  const enlaceAdmin = document.getElementById('admin-link');
+  if (state.modoDemo || !state.usuario) {
+    enlaceAdmin.hidden = true;
+    return;
+  }
+
+  const { data, error } = await state.supabaseClient
+    .from('admins')
+    .select('email')
+    .eq('email', state.usuario.email)
+    .maybeSingle();
+
+  enlaceAdmin.hidden = Boolean(error) || !data;
 }
 
 /* ----------------------------------------------------------------------

@@ -29,19 +29,26 @@ ejemplo, buscar "necesito un odontólogo" encuentra el plan odontológico).
 - **Modo demo**: si no hay una conexión válida a Supabase configurada, la
   aplicación funciona con 12 beneficios de ejemplo embebidos (3 por
   categoría) y muestra un aviso visible al usuario.
+- **Panel de administración** (`admin.html`): permite crear, editar y
+  eliminar beneficios desde la propia app. Solo lo pueden usar los correos
+  registrados en la tabla `admins` de Supabase; el resto de usuarios
+  autenticados no ve el enlace ni tiene permisos de escritura (reforzado
+  por Row Level Security en la base de datos, no solo en el cliente).
 
 ## Estructura del proyecto
 
 ```
 benehub-/
 ├── index.html            # Estructura de la aplicación (login, portal, modal)
+├── admin.html             # Panel de administración de beneficios
 ├── css/
 │   └── styles.css        # Estilos (diseño corporativo y responsive)
 ├── js/
 │   ├── config.js         # Constantes SUPABASE_URL y SUPABASE_ANON_KEY
-│   └── app.js             # Lógica: auth, datos, búsqueda, render, modal
+│   ├── app.js             # Lógica del portal: auth, datos, búsqueda, render, modal
+│   └── admin.js           # Lógica del panel de administración (CRUD de beneficios)
 ├── supabase/
-│   └── schema.sql         # Tabla `beneficios`, RLS y datos de ejemplo
+│   └── schema.sql         # Tablas `beneficios` y `admins`, RLS y datos de ejemplo
 └── README.md
 ```
 
@@ -77,6 +84,38 @@ Mientras `js/config.js` conserve los valores placeholder, BeneHub arrancará
 automáticamente en **modo demo**, mostrando el aviso correspondiente y los
 12 beneficios embebidos sin necesidad de backend.
 
+## Panel de administración
+
+El panel de administración (`admin.html`) permite gestionar el catálogo de
+beneficios sin tocar el SQL Editor de Supabase directamente.
+
+**Para darle acceso de administrador a alguien:**
+
+1. Ve a **Table Editor → admins** en tu proyecto de Supabase (esta tabla la
+   crea el propio `supabase/schema.sql`).
+2. Inserta una fila con el correo exacto con el que esa persona inicia
+   sesión en BeneHub, por ejemplo `tu-correo@empresa.com`.
+3. Esa persona debe iniciar sesión (o cerrar y volver a iniciar sesión si ya
+   estaba dentro) para que aparezca el botón **"Panel admin"** junto a
+   "Cerrar sesión" en el portal. También puede entrar directamente a
+   `admin.html` desde el navegador.
+
+**Desde el panel puede:**
+- Ver todos los beneficios en una tabla.
+- Crear uno nuevo con **"+ Agregar beneficio"**.
+- Editar cualquier campo con el botón **"Editar"** (abre el mismo
+  formulario con los datos precargados).
+- Eliminarlo con **"Eliminar"** (pide confirmación).
+- El campo de palabras clave se escribe separado por comas
+  (ej. `odontólogo, dientes, dental`) y la app lo convierte automáticamente
+  al arreglo que usa la búsqueda inteligente.
+
+La protección real no depende de ocultar el botón en la interfaz: las
+políticas de Row Level Security en `beneficios` solo permiten `INSERT`,
+`UPDATE` y `DELETE` a los correos presentes en la tabla `admins` (ver
+sección 4 de `supabase/schema.sql`). Un usuario sin permisos que intente
+llamar a la API directamente recibirá un error de la base de datos.
+
 ## Despliegue en Netlify
 
 Este proyecto no requiere proceso de build (es HTML/CSS/JS puro):
@@ -110,5 +149,10 @@ Luego abre `http://localhost:8080` (o el puerto indicado) en tu navegador.
 - La `anon key` de Supabase es pública por diseño y está pensada para
   usarse en el cliente; el control de acceso real se hace mediante las
   políticas de Row Level Security definidas en `supabase/schema.sql`.
-- La tabla `beneficios` solo permite lectura (`SELECT`) a usuarios
-  autenticados; no expone políticas de escritura desde el cliente.
+- La tabla `beneficios` permite lectura (`SELECT`) a cualquier usuario
+  autenticado, y escritura (`INSERT`/`UPDATE`/`DELETE`) únicamente a los
+  correos presentes en la tabla `admins`.
+- BeneHub no mantiene una lista propia de usuarios y contraseñas: las
+  cuentas las crea cada persona desde el botón "Crear cuenta" y Supabase
+  Auth guarda las contraseñas cifradas — no son recuperables en texto
+  plano ni por el equipo del proyecto ni por Supabase.
