@@ -492,14 +492,6 @@ async function mostrarPortal() {
 
   await cargarBeneficios();
   renderizarBeneficios();
-  actualizarEnlaceAdmin();
-}
-
-// El botón se muestra a cualquier usuario autenticado con backend real; el
-// control de acceso verdadero ocurre dentro de admin.html (comprobación de
-// la tabla `admins`) y en las políticas de RLS de Supabase, no aquí.
-function actualizarEnlaceAdmin() {
-  document.getElementById('admin-link').hidden = state.modoDemo;
 }
 
 /* ----------------------------------------------------------------------

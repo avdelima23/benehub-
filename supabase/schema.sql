@@ -145,8 +145,8 @@ values
 -- ----------------------------------------------------------------------------
 -- Tabla de correos autorizados a gestionar el catálogo desde el panel de
 -- administración de BeneHub (admin.html). Para dar acceso de administrador
--- a alguien, inserta su correo aquí (debe coincidir exactamente con el
--- correo con el que esa persona inicia sesión en la app):
+-- a alguien, inserta su correo aquí (no importa mayúsculas/minúsculas, la
+-- comparación las ignora, pero evita espacios al inicio o al final):
 --
 --   insert into public.admins (email) values ('tu-correo@empresa.com');
 --
@@ -164,16 +164,16 @@ create policy "Un usuario autenticado puede verificar si es admin"
   on public.admins
   for select
   to authenticated
-  using (email = (auth.jwt() ->> 'email'));
+  using (lower(email) = lower(auth.jwt() ->> 'email'));
 
 -- Solo los correos presentes en `admins` pueden crear, editar o eliminar
 -- beneficios; el resto de usuarios autenticados conserva solo lectura
--- (política de la sección 2).
+-- (política de la sección 2). La comparación ignora mayúsculas/minúsculas.
 drop policy if exists "Escritura de beneficios solo para administradores" on public.beneficios;
 
 create policy "Escritura de beneficios solo para administradores"
   on public.beneficios
   for all
   to authenticated
-  using (exists (select 1 from public.admins a where a.email = (auth.jwt() ->> 'email')))
-  with check (exists (select 1 from public.admins a where a.email = (auth.jwt() ->> 'email')));
+  using (exists (select 1 from public.admins a where lower(a.email) = lower(auth.jwt() ->> 'email')))
+  with check (exists (select 1 from public.admins a where lower(a.email) = lower(auth.jwt() ->> 'email')));

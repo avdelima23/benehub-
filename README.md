@@ -86,19 +86,27 @@ automáticamente en **modo demo**, mostrando el aviso correspondiente y los
 
 ## Panel de administración
 
-El panel de administración (`admin.html`) permite gestionar el catálogo de
-beneficios sin tocar el SQL Editor de Supabase directamente.
+El panel de administración vive en `admin.html`, una página aparte que
+**no está enlazada desde ningún menú del portal** — se accede escribiendo
+la URL directamente, por ejemplo:
+
+```
+https://tu-sitio.netlify.app/admin.html
+```
+
+Permite gestionar el catálogo de beneficios sin tocar el SQL Editor de
+Supabase directamente.
 
 **Para darle acceso de administrador a alguien:**
 
 1. Ve a **Table Editor → admins** en tu proyecto de Supabase (esta tabla la
    crea el propio `supabase/schema.sql`).
-2. Inserta una fila con el correo exacto con el que esa persona inicia
-   sesión en BeneHub, por ejemplo `tu-correo@empresa.com`.
-3. Esa persona debe iniciar sesión (o cerrar y volver a iniciar sesión si ya
-   estaba dentro) para que aparezca el botón **"Panel admin"** junto a
-   "Cerrar sesión" en el portal. También puede entrar directamente a
-   `admin.html` desde el navegador.
+2. Inserta una fila con el correo con el que esa persona inicia sesión en
+   BeneHub, por ejemplo `tu-correo@empresa.com`. La comparación **no
+   distingue mayúsculas de minúsculas**, pero evita espacios al inicio o al
+   final del correo.
+3. Esa persona debe tener sesión iniciada en BeneHub (desde `index.html`) y
+   luego entrar a `admin.html`.
 
 **Desde el panel puede:**
 - Ver todos los beneficios en una tabla.
@@ -110,11 +118,19 @@ beneficios sin tocar el SQL Editor de Supabase directamente.
   (ej. `odontólogo, dientes, dental`) y la app lo convierte automáticamente
   al arreglo que usa la búsqueda inteligente.
 
-La protección real no depende de ocultar el botón en la interfaz: las
-políticas de Row Level Security en `beneficios` solo permiten `INSERT`,
-`UPDATE` y `DELETE` a los correos presentes en la tabla `admins` (ver
-sección 4 de `supabase/schema.sql`). Un usuario sin permisos que intente
-llamar a la API directamente recibirá un error de la base de datos.
+La protección real no depende de que la URL sea secreta: las políticas de
+Row Level Security en `beneficios` solo permiten `INSERT`, `UPDATE` y
+`DELETE` a los correos presentes en la tabla `admins` (ver sección 4 de
+`supabase/schema.sql`). Un usuario sin permisos que intente llamar a la API
+directamente recibirá un error de la base de datos.
+
+**Si `admin.html` te dice que no tienes permisos:** el mensaje ahora indica
+la causa exacta:
+- *"ese correo no está en la tabla admins"* → agrégalo en Table Editor tal
+  como inicias sesión (no importan mayúsculas/minúsculas).
+- *"error técnico: ..."* → revisa que la tabla `admins` y sus políticas de
+  RLS existan en tu proyecto (vuelve a correr la sección 4 de
+  `supabase/schema.sql`).
 
 ## Despliegue en Netlify
 

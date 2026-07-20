@@ -56,17 +56,19 @@ function mostrarMensajeEstado(texto, tipo) {
    Verificación de sesión y permisos de administrador
    ---------------------------------------------------------------------- */
 async function verificarEsAdmin() {
+  // ilike compara sin distinguir mayúsculas/minúsculas, igual que la
+  // política de RLS (lower(email) = lower(...)) definida en schema.sql.
   const { data, error } = await state.supabaseClient
     .from('admins')
     .select('email')
-    .eq('email', state.usuario.email)
+    .ilike('email', state.usuario.email.trim())
     .maybeSingle();
 
   if (error) {
     console.error('Error al verificar permisos de administrador:', error);
-    return false;
+    return { esAdmin: false, error };
   }
-  return Boolean(data);
+  return { esAdmin: Boolean(data), error: null };
 }
 
 /* ----------------------------------------------------------------------
@@ -263,12 +265,23 @@ async function inicializarAdmin() {
   state.usuario = sesionData.session.user;
   document.getElementById('user-email').textContent = state.usuario.email;
 
-  const esAdmin = await verificarEsAdmin();
+  const { esAdmin, error } = await verificarEsAdmin();
   if (!esAdmin) {
-    mostrarMensajeEstado(
-      'Tu cuenta no tiene permisos de administrador. Pide a un administrador que agregue tu correo a la tabla "admins" en Supabase.',
-      'error'
-    );
+    if (error) {
+      // Error técnico (tabla/política inexistente, permiso denegado, etc.),
+      // distinto de "tu correo no está en la lista de administradores".
+      mostrarMensajeEstado(
+        `No se pudo verificar tu permiso de administrador por un error técnico: "${error.message}". ` +
+        'Revisa en Supabase que la tabla "admins" exista y que su política de RLS de lectura esté creada (sección 4 de supabase/schema.sql).',
+        'error'
+      );
+    } else {
+      mostrarMensajeEstado(
+        `Iniciaste sesión como "${state.usuario.email}", pero ese correo no está en la tabla "admins" de Supabase. ` +
+        'Ve a Table Editor → admins en tu proyecto y verifica que exista una fila con este correo escrito exactamente igual (sin espacios, mismas mayúsculas/minúsculas).',
+        'error'
+      );
+    }
     return;
   }
 
