@@ -1,12 +1,14 @@
 // ============================================================================
 // BeneHub — Panel de administración
-// Permite a los correos registrados en la tabla `admins` de Supabase crear,
-// editar y eliminar beneficios. El control de acceso real ocurre en el
-// servidor mediante Row Level Security (ver supabase/schema.sql); las
-// comprobaciones aquí solo mejoran la experiencia de usuario.
+// Permite a los usuarios con rol 'administrador' (tabla `perfiles` de
+// Supabase) crear, editar, activar/desactivar y eliminar beneficios. El
+// control de acceso real ocurre en el servidor mediante Row Level Security
+// (ver supabase/schema.sql); las comprobaciones aquí solo mejoran la
+// experiencia de usuario.
 // ============================================================================
 
 const CATEGORIAS_VALIDAS = ['Salud', 'Bienestar', 'Finanzas', 'Tiempo Libre'];
+const CONDICIONES_VALIDAS = ['Pasante', 'Temporal', 'Fijo'];
 
 const state = {
   supabaseClient: null,
@@ -56,19 +58,20 @@ function mostrarMensajeEstado(texto, tipo) {
    Verificación de sesión y permisos de administrador
    ---------------------------------------------------------------------- */
 async function verificarEsAdmin() {
-  // ilike compara sin distinguir mayúsculas/minúsculas, igual que la
-  // política de RLS (lower(email) = lower(...)) definida en schema.sql.
   const { data, error } = await state.supabaseClient
-    .from('admins')
-    .select('email')
-    .ilike('email', state.usuario.email.trim())
+    .from('perfiles')
+    .select('rol')
+    .eq('id', state.usuario.id)
     .maybeSingle();
 
   if (error) {
     console.error('Error al verificar permisos de administrador:', error);
-    return { esAdmin: false, error };
+    return { esAdmin: false, error, sinPerfil: false };
   }
-  return { esAdmin: Boolean(data), error: null };
+  if (!data) {
+    return { esAdmin: false, error: null, sinPerfil: true };
+  }
+  return { esAdmin: data.rol === 'administrador', error: null, sinPerfil: false };
 }
 
 /* ----------------------------------------------------------------------
@@ -105,11 +108,15 @@ function renderizarTablaAdmin() {
     const celdaCategoria = document.createElement('td');
     celdaCategoria.textContent = beneficio.categoria;
 
-    const celdaProveedor = document.createElement('td');
-    celdaProveedor.textContent = beneficio.proveedor_nombre;
+    const celdaCondiciones = document.createElement('td');
+    const condiciones = beneficio.condiciones_elegibles || [];
+    celdaCondiciones.textContent = condiciones.length > 0 ? condiciones.join(', ') : 'Todas';
 
-    const celdaFacilitador = document.createElement('td');
-    celdaFacilitador.textContent = beneficio.facilitador_nombre;
+    const celdaEstado = document.createElement('td');
+    const estadoBadge = document.createElement('span');
+    estadoBadge.className = `estado-badge ${beneficio.activo ? 'estado-activo' : 'estado-inactivo'}`;
+    estadoBadge.textContent = beneficio.activo ? 'Activo' : 'Inactivo';
+    celdaEstado.appendChild(estadoBadge);
 
     const celdaAcciones = document.createElement('td');
     celdaAcciones.className = 'admin-actions';
@@ -119,13 +126,18 @@ function renderizarTablaAdmin() {
     btnEditar.textContent = 'Editar';
     btnEditar.addEventListener('click', () => abrirFormulario(beneficio));
 
+    const btnEstado = document.createElement('button');
+    btnEstado.className = 'btn btn-outline btn-sm';
+    btnEstado.textContent = beneficio.activo ? 'Desactivar' : 'Activar';
+    btnEstado.addEventListener('click', () => alternarEstadoBeneficio(beneficio));
+
     const btnEliminar = document.createElement('button');
-    btnEliminar.className = 'btn btn-danger btn-sm';
-    btnEliminar.textContent = 'Eliminar';
+    btnEliminar.className = 'btn-eliminar-permanente';
+    btnEliminar.textContent = 'Eliminar permanentemente';
     btnEliminar.addEventListener('click', () => eliminarBeneficio(beneficio));
 
-    celdaAcciones.append(btnEditar, btnEliminar);
-    fila.append(celdaNombre, celdaCategoria, celdaProveedor, celdaFacilitador, celdaAcciones);
+    celdaAcciones.append(btnEditar, btnEstado, btnEliminar);
+    fila.append(celdaNombre, celdaCategoria, celdaCondiciones, celdaEstado, celdaAcciones);
     cuerpo.appendChild(fila);
   });
 }
@@ -150,6 +162,14 @@ function abrirFormulario(beneficio) {
   document.getElementById('f-facilitador-telefono').value = beneficio ? beneficio.facilitador_telefono : '';
   document.getElementById('f-palabras-clave').value = beneficio ? (beneficio.palabras_clave || []).join(', ') : '';
 
+  const condicionesSeleccionadas = beneficio ? (beneficio.condiciones_elegibles || []) : [];
+  CONDICIONES_VALIDAS.forEach((condicion) => {
+    const checkbox = document.getElementById(`f-condicion-${condicion.toLowerCase()}`);
+    checkbox.checked = condicionesSeleccionadas.includes(condicion);
+  });
+
+  document.getElementById('f-activo').checked = beneficio ? Boolean(beneficio.activo) : true;
+
   document.getElementById('admin-modal').hidden = false;
   document.body.style.overflow = 'hidden';
 }
@@ -166,6 +186,10 @@ function leerDatosFormulario() {
     .map((palabra) => palabra.trim())
     .filter(Boolean);
 
+  const condicionesElegibles = CONDICIONES_VALIDAS.filter(
+    (condicion) => document.getElementById(`f-condicion-${condicion.toLowerCase()}`).checked
+  );
+
   return {
     nombre: document.getElementById('f-nombre').value.trim(),
     categoria: document.getElementById('f-categoria').value,
@@ -176,7 +200,9 @@ function leerDatosFormulario() {
     facilitador_nombre: document.getElementById('f-facilitador-nombre').value.trim(),
     facilitador_email: document.getElementById('f-facilitador-email').value.trim(),
     facilitador_telefono: document.getElementById('f-facilitador-telefono').value.trim(),
-    palabras_clave: palabrasClave
+    palabras_clave: palabrasClave,
+    condiciones_elegibles: condicionesElegibles,
+    activo: document.getElementById('f-activo').checked
   };
 }
 
@@ -203,8 +229,25 @@ async function guardarBeneficio(evento) {
   await cargarBeneficiosAdmin();
 }
 
+async function alternarEstadoBeneficio(beneficio) {
+  const { error } = await state.supabaseClient
+    .from('beneficios')
+    .update({ activo: !beneficio.activo })
+    .eq('id', beneficio.id);
+
+  if (error) {
+    mostrarMensajeEstado(`Error al cambiar el estado: ${error.message}`, 'error');
+    return;
+  }
+
+  await cargarBeneficiosAdmin();
+}
+
 async function eliminarBeneficio(beneficio) {
-  const confirmado = window.confirm(`¿Eliminar el beneficio "${beneficio.nombre}"? Esta acción no se puede deshacer.`);
+  const confirmado = window.confirm(
+    `¿Eliminar PERMANENTEMENTE el beneficio "${beneficio.nombre}"? Esta acción no se puede deshacer. ` +
+    'Si solo quieres ocultarlo del portal sin perder la información, usa "Desactivar" en su lugar.'
+  );
   if (!confirmado) return;
 
   const { error } = await state.supabaseClient.from('beneficios').delete().eq('id', beneficio.id);
@@ -265,20 +308,23 @@ async function inicializarAdmin() {
   state.usuario = sesionData.session.user;
   document.getElementById('user-email').textContent = state.usuario.email;
 
-  const { esAdmin, error } = await verificarEsAdmin();
+  const { esAdmin, error, sinPerfil } = await verificarEsAdmin();
   if (!esAdmin) {
     if (error) {
-      // Error técnico (tabla/política inexistente, permiso denegado, etc.),
-      // distinto de "tu correo no está en la lista de administradores".
       mostrarMensajeEstado(
         `No se pudo verificar tu permiso de administrador por un error técnico: "${error.message}". ` +
-        'Revisa en Supabase que la tabla "admins" exista y que su política de RLS de lectura esté creada (sección 4 de supabase/schema.sql).',
+        'Revisa en Supabase que la tabla "perfiles" y sus políticas de RLS existan (sección 2 de supabase/schema.sql).',
+        'error'
+      );
+    } else if (sinPerfil) {
+      mostrarMensajeEstado(
+        'Todavía no tienes un perfil creado. Entra primero a index.html, inicia sesión y completa la pantalla "Completa tu perfil"; luego vuelve aquí.',
         'error'
       );
     } else {
       mostrarMensajeEstado(
-        `Iniciaste sesión como "${state.usuario.email}", pero ese correo no está en la tabla "admins" de Supabase. ` +
-        'Ve a Table Editor → admins en tu proyecto y verifica que exista una fila con este correo escrito exactamente igual (sin espacios, mismas mayúsculas/minúsculas).',
+        `Iniciaste sesión como "${state.usuario.email}", pero tu perfil no tiene rol de administrador. ` +
+        'Pide a quien administra el proyecto de Supabase que, en Table Editor → perfiles, cambie tu columna "rol" a "administrador".',
         'error'
       );
     }

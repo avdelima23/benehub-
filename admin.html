@@ -42,8 +42,8 @@
             <tr>
               <th>Nombre</th>
               <th>Categoría</th>
-              <th>Proveedor</th>
-              <th>Facilitador</th>
+              <th>Condiciones elegibles</th>
+              <th>Estado</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -96,6 +96,17 @@
 
         <label for="f-palabras-clave">Palabras clave (separadas por coma)</label>
         <input type="text" id="f-palabras-clave" placeholder="odontólogo, dientes, dental" />
+
+        <label>Condiciones de cargo elegibles (ninguna marcada = visible para todas)</label>
+        <div class="checkbox-row">
+          <label class="checkbox-label"><input type="checkbox" id="f-condicion-pasante" /> Pasante</label>
+          <label class="checkbox-label"><input type="checkbox" id="f-condicion-temporal" /> Temporal</label>
+          <label class="checkbox-label"><input type="checkbox" id="f-condicion-fijo" /> Fijo</label>
+        </div>
+
+        <label class="checkbox-label checkbox-label-standalone">
+          <input type="checkbox" id="f-activo" /> Beneficio activo (visible en el portal)
+        </label>
 
         <p id="admin-form-message" class="auth-message" role="status" aria-live="polite"></p>
 
