@@ -6,6 +6,8 @@
 --   2. Ve a "SQL Editor" → "New query"
 --   3. Pega el contenido completo de este archivo y ejecútalo (Run)
 --   4. Copia la URL y la anon key del proyecto en js/config.js
+--   5. Para usar el panel de administración (admin.html), agrega tu correo
+--      a la tabla `admins` (ver sección 4 más abajo)
 -- ============================================================================
 
 -- ----------------------------------------------------------------------------
@@ -31,10 +33,9 @@ comment on table public.beneficios is 'Catálogo de beneficios corporativos disp
 -- ----------------------------------------------------------------------------
 -- 2. Row Level Security (RLS)
 -- ----------------------------------------------------------------------------
--- Solo los usuarios autenticados pueden leer el catálogo de beneficios.
--- No se habilitan políticas de escritura: la administración de beneficios
--- se realiza desde el panel de Supabase o procesos internos, no desde el
--- cliente público.
+-- Todos los usuarios autenticados pueden leer el catálogo de beneficios.
+-- La escritura (crear/editar/eliminar) queda restringida a administradores
+-- mediante la tabla `admins` y las políticas definidas en la sección 4.
 alter table public.beneficios enable row level security;
 
 drop policy if exists "Lectura de beneficios para usuarios autenticados" on public.beneficios;
@@ -138,3 +139,41 @@ values
    'Fundación ManosUnidas', 'https://www.example.com/manosunidas',
    'Mariana Torres', 'mariana.torres@empresa.com', '+57 300 567 8901',
    array['voluntariado', 'fundación', 'responsabilidad social', 'comunidad']);
+
+-- ----------------------------------------------------------------------------
+-- 4. Administradores y permisos de escritura sobre beneficios
+-- ----------------------------------------------------------------------------
+-- Tabla de correos autorizados a gestionar el catálogo desde el panel de
+-- administración de BeneHub (admin.html). Para dar acceso de administrador
+-- a alguien, inserta su correo aquí (debe coincidir exactamente con el
+-- correo con el que esa persona inicia sesión en la app):
+--
+--   insert into public.admins (email) values ('tu-correo@empresa.com');
+--
+create table if not exists public.admins (
+  email text primary key
+);
+
+comment on table public.admins is 'Correos con permiso para gestionar el catálogo de beneficios desde el panel admin.';
+
+alter table public.admins enable row level security;
+
+drop policy if exists "Un usuario autenticado puede verificar si es admin" on public.admins;
+
+create policy "Un usuario autenticado puede verificar si es admin"
+  on public.admins
+  for select
+  to authenticated
+  using (email = (auth.jwt() ->> 'email'));
+
+-- Solo los correos presentes en `admins` pueden crear, editar o eliminar
+-- beneficios; el resto de usuarios autenticados conserva solo lectura
+-- (política de la sección 2).
+drop policy if exists "Escritura de beneficios solo para administradores" on public.beneficios;
+
+create policy "Escritura de beneficios solo para administradores"
+  on public.beneficios
+  for all
+  to authenticated
+  using (exists (select 1 from public.admins a where a.email = (auth.jwt() ->> 'email')))
+  with check (exists (select 1 from public.admins a where a.email = (auth.jwt() ->> 'email')));

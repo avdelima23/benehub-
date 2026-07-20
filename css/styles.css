@@ -525,6 +525,118 @@ a {
 }
 
 /* ---------------------------------------------------------------------------
+   Panel de administración
+--------------------------------------------------------------------------- */
+.admin-status-message {
+  max-width: 640px;
+  margin: 40px auto;
+  text-align: center;
+  padding: 18px 22px;
+  border-radius: var(--radius-md);
+  background: #fff3cd;
+  color: #8a6100;
+  border: 1px solid #f2d798;
+}
+
+.admin-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.admin-table-wrap {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+.admin-table th,
+.admin-table td {
+  text-align: left;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.9rem;
+}
+
+.admin-table th {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tbody tr:hover {
+  background: var(--color-bg);
+}
+
+.admin-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-sm {
+  padding: 7px 12px;
+  font-size: 0.82rem;
+}
+
+.btn-danger {
+  background: #fdecea;
+  color: var(--color-danger);
+  border: 1.5px solid #f6c6c1;
+}
+
+.btn-danger:hover {
+  background: #fbdad6;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-form label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-top: 12px;
+}
+
+.admin-form input,
+.admin-form select,
+.admin-form textarea {
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-border);
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.15s ease;
+}
+
+.admin-form input:focus,
+.admin-form select:focus,
+.admin-form textarea:focus {
+  border-color: var(--color-primary-light);
+}
+
+/* ---------------------------------------------------------------------------
    Responsive
 --------------------------------------------------------------------------- */
 @media (max-width: 640px) {
@@ -548,5 +660,10 @@ a {
 
   .modal-box {
     padding: 24px 20px;
+  }
+
+  .admin-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
