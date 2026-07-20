@@ -10,5 +10,5 @@
 // automáticamente en "modo demo" con datos de beneficios embebidos.
 // ============================================================================
 
-const SUPABASE_URL = 'https://tu-proyecto.supabase.co';
-const SUPABASE_ANON_KEY = 'tu-clave-anonima-publica-aqui';
+const SUPABASE_URL = 'https://ihsiivnhjuleefzonmud.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imloc2lpdm5oanVsZWVmem9ubXVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0OTY4MDQsImV4cCI6MjEwMDA3MjgwNH0.pHw6TSCRW2c3Srx3bA4f64OgNIjiHvdesLiZYkJEMFY';
