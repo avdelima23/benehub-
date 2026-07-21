@@ -311,10 +311,24 @@ a {
   border-color: var(--color-primary-light);
 }
 
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
 .category-filters {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+}
+
+.filter-favoritos.active {
+  background: #fff8e1;
+  border-color: #f2c94c;
+  color: #92720c;
 }
 
 .filter-chip {
@@ -392,6 +406,13 @@ a {
   box-shadow: var(--shadow-md);
 }
 
+.benefit-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .category-badge {
   display: inline-flex;
   align-items: center;
@@ -403,6 +424,23 @@ a {
   border-radius: 999px;
   text-transform: uppercase;
   letter-spacing: 0.02em;
+}
+
+.favorite-btn {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--color-border);
+  padding: 0;
+}
+
+.favorite-btn:hover {
+  color: #f2c94c;
+}
+
+.favorite-btn.is-favorite {
+  color: #f2c94c;
 }
 
 .category-badge.cat-salud { background: var(--color-salud-bg); color: var(--color-salud); }
@@ -634,6 +672,63 @@ a {
 .admin-form select:focus,
 .admin-form textarea:focus {
   border-color: var(--color-primary-light);
+}
+
+.checkbox-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-top: 0;
+  cursor: pointer;
+}
+
+.checkbox-label input {
+  width: auto;
+}
+
+.checkbox-label-standalone {
+  margin-top: 14px;
+}
+
+.estado-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.estado-activo {
+  background: var(--color-bienestar-bg);
+  color: var(--color-bienestar);
+}
+
+.estado-inactivo {
+  background: #f1f2f4;
+  color: var(--color-text-muted);
+}
+
+.btn-eliminar-permanente {
+  background: none;
+  border: none;
+  color: var(--color-danger);
+  font-size: 0.78rem;
+  text-decoration: underline;
+  padding: 7px 4px;
+}
+
+.btn-eliminar-permanente:hover {
+  color: #991b1b;
 }
 
 /* ---------------------------------------------------------------------------

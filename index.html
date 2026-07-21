@@ -41,6 +41,35 @@
     </div>
   </main>
 
+  <!-- ==================== COMPLETAR PERFIL (primer ingreso) ==================== -->
+  <main id="profile-screen" class="auth-screen" hidden>
+    <div class="auth-card">
+      <div class="auth-brand">
+        <span class="auth-logo">📝</span>
+        <h1>Completa tu perfil</h1>
+        <p class="auth-subtitle">Solo la primera vez: con esto te mostramos los beneficios que te corresponden según tu cargo.</p>
+      </div>
+
+      <form id="profile-form" class="auth-form" novalidate>
+        <label for="profile-nombre">Nombre completo</label>
+        <input type="text" id="profile-nombre" placeholder="Ej: Ana Pérez" autocomplete="name" required />
+
+        <label for="profile-condicion">Condición del cargo</label>
+        <select id="profile-condicion" required>
+          <option value="Fijo">Fijo</option>
+          <option value="Temporal">Temporal</option>
+          <option value="Pasante">Pasante</option>
+        </select>
+
+        <p id="profile-message" class="auth-message" role="status" aria-live="polite"></p>
+
+        <div class="auth-actions">
+          <button type="submit" class="btn btn-primary">Continuar</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
   <!-- ==================== PORTAL DE BENEFICIOS ==================== -->
   <div id="portal-screen" class="portal-screen" hidden>
 
@@ -55,7 +84,6 @@
         </div>
         <div class="portal-user">
           <span id="user-email" class="user-email"></span>
-          <a id="admin-link" href="admin.html" class="btn btn-outline" hidden>Panel admin</a>
           <button id="btn-logout" class="btn btn-outline">Cerrar sesión</button>
         </div>
       </div>
@@ -73,12 +101,18 @@
         />
       </div>
 
-      <div id="category-filters" class="category-filters" role="tablist" aria-label="Filtrar por categoría">
-        <button class="filter-chip active" data-category="todas" role="tab" aria-selected="true">Todas</button>
-        <button class="filter-chip filter-salud" data-category="Salud" role="tab" aria-selected="false">🩺 Salud</button>
-        <button class="filter-chip filter-bienestar" data-category="Bienestar" role="tab" aria-selected="false">🧘 Bienestar</button>
-        <button class="filter-chip filter-finanzas" data-category="Finanzas" role="tab" aria-selected="false">💰 Finanzas</button>
-        <button class="filter-chip filter-tiempo-libre" data-category="Tiempo Libre" role="tab" aria-selected="false">🎉 Tiempo Libre</button>
+      <div class="controls-row">
+        <div id="category-filters" class="category-filters" role="tablist" aria-label="Filtrar por categoría">
+          <button class="filter-chip active" data-category="todas" role="tab" aria-selected="true">Todas</button>
+          <button class="filter-chip filter-salud" data-category="Salud" role="tab" aria-selected="false">🩺 Salud</button>
+          <button class="filter-chip filter-bienestar" data-category="Bienestar" role="tab" aria-selected="false">🧘 Bienestar</button>
+          <button class="filter-chip filter-finanzas" data-category="Finanzas" role="tab" aria-selected="false">💰 Finanzas</button>
+          <button class="filter-chip filter-tiempo-libre" data-category="Tiempo Libre" role="tab" aria-selected="false">🎉 Tiempo Libre</button>
+        </div>
+
+        <button id="toggle-favoritos" class="filter-chip filter-favoritos" type="button" aria-pressed="false">
+          ⭐ Mis favoritos
+        </button>
       </div>
     </section>
 

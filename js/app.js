@@ -20,7 +20,9 @@ const BENEFICIOS_DEMO = [
     facilitador_nombre: 'Camila Rojas',
     facilitador_email: 'camila.rojas@empresa.com',
     facilitador_telefono: '+57 300 123 4567',
-    palabras_clave: ['odontólogo', 'dientes', 'dental', 'muela', 'ortodoncia', 'limpieza dental']
+    palabras_clave: ['odontólogo', 'dientes', 'dental', 'muela', 'ortodoncia', 'limpieza dental'],
+    condiciones_elegibles: ['Fijo', 'Temporal'],
+    activo: true
   },
   {
     id: 'demo-2',
@@ -33,7 +35,9 @@ const BENEFICIOS_DEMO = [
     facilitador_nombre: 'Andrés Muñoz',
     facilitador_email: 'andres.munoz@empresa.com',
     facilitador_telefono: '+57 300 234 5678',
-    palabras_clave: ['médico', 'clínica', 'especialista', 'urgencias', 'hospital', 'eps']
+    palabras_clave: ['médico', 'clínica', 'especialista', 'urgencias', 'hospital', 'eps'],
+    condiciones_elegibles: ['Fijo'],
+    activo: true
   },
   {
     id: 'demo-3',
@@ -46,7 +50,9 @@ const BENEFICIOS_DEMO = [
     facilitador_nombre: 'Camila Rojas',
     facilitador_email: 'camila.rojas@empresa.com',
     facilitador_telefono: '+57 300 123 4567',
-    palabras_clave: ['ojos', 'lentes', 'gafas', 'oftalmólogo', 'optometría', 'visión']
+    palabras_clave: ['ojos', 'lentes', 'gafas', 'oftalmólogo', 'optometría', 'visión'],
+    condiciones_elegibles: [],
+    activo: true
   },
 
   // ---------------- BIENESTAR ----------------
@@ -61,7 +67,9 @@ const BENEFICIOS_DEMO = [
     facilitador_nombre: 'Laura Gómez',
     facilitador_email: 'laura.gomez@empresa.com',
     facilitador_telefono: '+57 300 345 6789',
-    palabras_clave: ['gimnasio', 'ejercicio', 'deporte', 'entrenamiento', 'fitness', 'pesas']
+    palabras_clave: ['gimnasio', 'ejercicio', 'deporte', 'entrenamiento', 'fitness', 'pesas'],
+    condiciones_elegibles: [],
+    activo: true
   },
   {
     id: 'demo-5',
@@ -74,7 +82,9 @@ const BENEFICIOS_DEMO = [
     facilitador_nombre: 'Laura Gómez',
     facilitador_email: 'laura.gomez@empresa.com',
     facilitador_telefono: '+57 300 345 6789',
-    palabras_clave: ['psicólogo', 'salud mental', 'terapia', 'estrés', 'ansiedad', 'emocional']
+    palabras_clave: ['psicólogo', 'salud mental', 'terapia', 'estrés', 'ansiedad', 'emocional'],
+    condiciones_elegibles: [],
+    activo: true
   },
   {
     id: 'demo-6',
@@ -87,7 +97,9 @@ const BENEFICIOS_DEMO = [
     facilitador_nombre: 'Laura Gómez',
     facilitador_email: 'laura.gomez@empresa.com',
     facilitador_telefono: '+57 300 345 6789',
-    palabras_clave: ['nutrición', 'dieta', 'alimentación', 'nutricionista', 'peso']
+    palabras_clave: ['nutrición', 'dieta', 'alimentación', 'nutricionista', 'peso'],
+    condiciones_elegibles: ['Fijo', 'Temporal'],
+    activo: true
   },
 
   // ---------------- FINANZAS ----------------
@@ -102,7 +114,9 @@ const BENEFICIOS_DEMO = [
     facilitador_nombre: 'Diego Fernández',
     facilitador_email: 'diego.fernandez@empresa.com',
     facilitador_telefono: '+57 300 456 7890',
-    palabras_clave: ['ahorro', 'fondo', 'dinero', 'inversión', 'finanzas personales']
+    palabras_clave: ['ahorro', 'fondo', 'dinero', 'inversión', 'finanzas personales'],
+    condiciones_elegibles: ['Fijo'],
+    activo: true
   },
   {
     id: 'demo-8',
@@ -115,7 +129,9 @@ const BENEFICIOS_DEMO = [
     facilitador_nombre: 'Diego Fernández',
     facilitador_email: 'diego.fernandez@empresa.com',
     facilitador_telefono: '+57 300 456 7890',
-    palabras_clave: ['asesoría', 'impuestos', 'presupuesto', 'crédito', 'planeación financiera']
+    palabras_clave: ['asesoría', 'impuestos', 'presupuesto', 'crédito', 'planeación financiera'],
+    condiciones_elegibles: [],
+    activo: true
   },
   {
     id: 'demo-9',
@@ -128,7 +144,9 @@ const BENEFICIOS_DEMO = [
     facilitador_nombre: 'Diego Fernández',
     facilitador_email: 'diego.fernandez@empresa.com',
     facilitador_telefono: '+57 300 456 7890',
-    palabras_clave: ['crédito', 'préstamo', 'banco', 'tasa de interés', 'financiamiento']
+    palabras_clave: ['crédito', 'préstamo', 'banco', 'tasa de interés', 'financiamiento'],
+    condiciones_elegibles: ['Fijo'],
+    activo: true
   },
 
   // ---------------- TIEMPO LIBRE ----------------
@@ -143,7 +161,9 @@ const BENEFICIOS_DEMO = [
     facilitador_nombre: 'Mariana Torres',
     facilitador_email: 'mariana.torres@empresa.com',
     facilitador_telefono: '+57 300 567 8901',
-    palabras_clave: ['cine', 'streaming', 'entretenimiento', 'ocio', 'eventos', 'cultura']
+    palabras_clave: ['cine', 'streaming', 'entretenimiento', 'ocio', 'eventos', 'cultura'],
+    condiciones_elegibles: [],
+    activo: true
   },
   {
     id: 'demo-11',
@@ -156,7 +176,9 @@ const BENEFICIOS_DEMO = [
     facilitador_nombre: 'Mariana Torres',
     facilitador_email: 'mariana.torres@empresa.com',
     facilitador_telefono: '+57 300 567 8901',
-    palabras_clave: ['viajes', 'turismo', 'vacaciones', 'hotel', 'tiquetes']
+    palabras_clave: ['viajes', 'turismo', 'vacaciones', 'hotel', 'tiquetes'],
+    condiciones_elegibles: ['Fijo', 'Temporal'],
+    activo: true
   },
   {
     id: 'demo-12',
@@ -169,7 +191,9 @@ const BENEFICIOS_DEMO = [
     facilitador_nombre: 'Mariana Torres',
     facilitador_email: 'mariana.torres@empresa.com',
     facilitador_telefono: '+57 300 567 8901',
-    palabras_clave: ['voluntariado', 'fundación', 'responsabilidad social', 'comunidad']
+    palabras_clave: ['voluntariado', 'fundación', 'responsabilidad social', 'comunidad'],
+    condiciones_elegibles: [],
+    activo: true
   }
 ];
 
@@ -180,9 +204,12 @@ const state = {
   supabaseClient: null,
   modoDemo: true,
   usuario: null,
+  perfil: null,
+  favoritos: new Set(),
   beneficios: [],
   categoriaActiva: 'todas',
-  textoBusqueda: ''
+  textoBusqueda: '',
+  soloFavoritos: false
 };
 
 const CATEGORIA_CLASE = {
@@ -266,7 +293,7 @@ function beneficioCoincideConBusqueda(beneficio, textoNormalizado) {
 }
 
 /* ----------------------------------------------------------------------
-   4. CARGA DE BENEFICIOS
+   4. CARGA DE BENEFICIOS Y FAVORITOS
    ---------------------------------------------------------------------- */
 async function cargarBeneficios() {
   if (state.modoDemo) {
@@ -299,6 +326,48 @@ async function cargarBeneficios() {
   mostrarAvisoDemo(false);
 }
 
+async function cargarFavoritos() {
+  if (state.modoDemo) return; // en demo, los favoritos solo viven en memoria
+
+  const { data, error } = await state.supabaseClient
+    .from('favoritos')
+    .select('beneficio_id')
+    .eq('usuario_id', state.usuario.id);
+
+  if (error) {
+    console.error('Error al cargar favoritos:', error);
+    return;
+  }
+
+  state.favoritos = new Set((data || []).map((fila) => fila.beneficio_id));
+}
+
+async function alternarFavorito(beneficioId) {
+  const yaEsFavorito = state.favoritos.has(beneficioId);
+
+  if (yaEsFavorito) {
+    state.favoritos.delete(beneficioId);
+  } else {
+    state.favoritos.add(beneficioId);
+  }
+
+  if (!state.modoDemo) {
+    const operacion = yaEsFavorito
+      ? state.supabaseClient.from('favoritos').delete().eq('usuario_id', state.usuario.id).eq('beneficio_id', beneficioId)
+      : state.supabaseClient.from('favoritos').insert([{ usuario_id: state.usuario.id, beneficio_id: beneficioId }]);
+
+    const { error } = await operacion;
+    if (error) {
+      console.error('Error al actualizar favorito:', error);
+      // revertir el cambio local si falló en el servidor
+      if (yaEsFavorito) state.favoritos.add(beneficioId);
+      else state.favoritos.delete(beneficioId);
+    }
+  }
+
+  renderizarBeneficios();
+}
+
 function mostrarAvisoDemo(mostrar) {
   const banner = document.getElementById('demo-banner');
   banner.hidden = !mostrar;
@@ -307,10 +376,20 @@ function mostrarAvisoDemo(mostrar) {
 /* ----------------------------------------------------------------------
    5. RENDERIZADO DEL PORTAL
    ---------------------------------------------------------------------- */
+function esElegiblePorCondicion(beneficio) {
+  const condiciones = beneficio.condiciones_elegibles || [];
+  if (condiciones.length === 0) return true;
+  return state.perfil && condiciones.includes(state.perfil.condicion);
+}
+
 function obtenerBeneficiosFiltrados() {
   const textoNormalizado = normalizarTexto(state.textoBusqueda);
 
   return state.beneficios.filter((beneficio) => {
+    if (beneficio.activo === false) return false;
+    if (!esElegiblePorCondicion(beneficio)) return false;
+    if (state.soloFavoritos && !state.favoritos.has(beneficio.id)) return false;
+
     const coincideCategoria =
       state.categoriaActiva === 'todas' || beneficio.categoria === state.categoriaActiva;
     const coincideBusqueda = beneficioCoincideConBusqueda(beneficio, textoNormalizado);
@@ -328,9 +407,25 @@ function crearTarjetaBeneficio(beneficio) {
   card.setAttribute('role', 'button');
   card.setAttribute('aria-label', `Ver detalle de ${beneficio.nombre}`);
 
+  const filaSuperior = document.createElement('div');
+  filaSuperior.className = 'benefit-card-top';
+
   const badge = document.createElement('span');
   badge.className = `category-badge ${claseCategoria}`;
   badge.textContent = beneficio.categoria;
+
+  const esFavorito = state.favoritos.has(beneficio.id);
+  const btnFavorito = document.createElement('button');
+  btnFavorito.type = 'button';
+  btnFavorito.className = `favorite-btn ${esFavorito ? 'is-favorite' : ''}`.trim();
+  btnFavorito.textContent = esFavorito ? '★' : '☆';
+  btnFavorito.setAttribute('aria-label', esFavorito ? 'Quitar de favoritos' : 'Agregar a favoritos');
+  btnFavorito.addEventListener('click', (evento) => {
+    evento.stopPropagation();
+    alternarFavorito(beneficio.id);
+  });
+
+  filaSuperior.append(badge, btnFavorito);
 
   const titulo = document.createElement('h3');
   titulo.textContent = beneficio.nombre;
@@ -343,7 +438,7 @@ function crearTarjetaBeneficio(beneficio) {
   footer.className = 'benefit-card-footer';
   footer.textContent = 'Ver detalle →';
 
-  card.append(badge, titulo, desc, footer);
+  card.append(filaSuperior, titulo, desc, footer);
 
   const abrir = () => abrirModalBeneficio(beneficio);
   card.addEventListener('click', abrir);
@@ -368,6 +463,9 @@ function renderizarBeneficios() {
   filtrados.forEach((beneficio) => grid.appendChild(crearTarjetaBeneficio(beneficio)));
 
   emptyState.hidden = filtrados.length !== 0;
+  emptyState.textContent = state.soloFavoritos
+    ? 'Todavía no has guardado beneficios como favoritos, o ninguno coincide con el filtro actual.'
+    : 'No encontramos beneficios que coincidan con tu búsqueda. Intenta con otras palabras.';
   resultsCount.textContent =
     filtrados.length === 1 ? '1 beneficio encontrado' : `${filtrados.length} beneficios encontrados`;
 }
@@ -418,7 +516,7 @@ async function manejarInicioSesion(email, password) {
   if (state.modoDemo) {
     // En modo demo se simula el ingreso sin backend real
     state.usuario = { email };
-    mostrarPortal();
+    await despuesDeAutenticar();
     return;
   }
 
@@ -428,13 +526,13 @@ async function manejarInicioSesion(email, password) {
     return;
   }
   state.usuario = data.user;
-  mostrarPortal();
+  await despuesDeAutenticar();
 }
 
 async function manejarCrearCuenta(email, password) {
   if (state.modoDemo) {
     state.usuario = { email };
-    mostrarPortal();
+    await despuesDeAutenticar();
     return;
   }
 
@@ -450,7 +548,7 @@ async function manejarCrearCuenta(email, password) {
   }
 
   state.usuario = data.user;
-  mostrarPortal();
+  await despuesDeAutenticar();
 }
 
 async function manejarCerrarSesion() {
@@ -458,6 +556,9 @@ async function manejarCerrarSesion() {
     await state.supabaseClient.auth.signOut();
   }
   state.usuario = null;
+  state.perfil = null;
+  state.favoritos = new Set();
+  state.soloFavoritos = false;
   mostrarAuth();
 }
 
@@ -476,43 +577,107 @@ function traducirErrorAuth(error) {
 }
 
 /* ----------------------------------------------------------------------
-   8. NAVEGACIÓN ENTRE PANTALLAS
+   8. PERFIL (nombre, condición del cargo)
    ---------------------------------------------------------------------- */
-function mostrarAuth() {
-  document.getElementById('auth-screen').hidden = false;
+async function cargarPerfil() {
+  if (state.modoDemo) return state.perfil; // ya sea null (primera vez) o el que se completó en esta sesión
+
+  const { data, error } = await state.supabaseClient
+    .from('perfiles')
+    .select('*')
+    .eq('id', state.usuario.id)
+    .maybeSingle();
+
+  if (error) {
+    console.error('Error al cargar el perfil:', error);
+    return null;
+  }
+  return data;
+}
+
+async function despuesDeAutenticar() {
+  const perfil = await cargarPerfil();
+  if (!perfil) {
+    mostrarPantallaPerfil();
+    return;
+  }
+  state.perfil = perfil;
+  await mostrarPortal();
+}
+
+function mostrarMensajePerfil(texto, tipo) {
+  const mensaje = document.getElementById('profile-message');
+  mensaje.textContent = texto;
+  mensaje.className = `auth-message ${tipo || ''}`.trim();
+}
+
+async function guardarPerfil(evento) {
+  evento.preventDefault();
+  const nombre = document.getElementById('profile-nombre').value.trim();
+  const condicion = document.getElementById('profile-condicion').value;
+
+  if (!nombre) {
+    mostrarMensajePerfil('Escribe tu nombre completo.', 'error');
+    return;
+  }
+
+  if (state.modoDemo) {
+    state.perfil = { nombre, condicion, rol: 'empleado' };
+    await mostrarPortal();
+    return;
+  }
+
+  mostrarMensajePerfil('Guardando...', '');
+  const { data, error } = await state.supabaseClient
+    .from('perfiles')
+    .insert([{ id: state.usuario.id, nombre, correo: state.usuario.email, condicion }])
+    .select()
+    .single();
+
+  if (error) {
+    mostrarMensajePerfil(`No se pudo guardar tu perfil: ${error.message}`, 'error');
+    return;
+  }
+
+  state.perfil = data;
+  await mostrarPortal();
+}
+
+/* ----------------------------------------------------------------------
+   9. NAVEGACIÓN ENTRE PANTALLAS
+   ---------------------------------------------------------------------- */
+function ocultarTodasLasPantallas() {
+  document.getElementById('auth-screen').hidden = true;
+  document.getElementById('profile-screen').hidden = true;
   document.getElementById('portal-screen').hidden = true;
+}
+
+function mostrarAuth() {
+  ocultarTodasLasPantallas();
+  document.getElementById('auth-screen').hidden = false;
   document.getElementById('auth-form').reset();
   mostrarMensajeAuth('', '');
 }
 
+function mostrarPantallaPerfil() {
+  ocultarTodasLasPantallas();
+  document.getElementById('profile-screen').hidden = false;
+  document.getElementById('profile-form').reset();
+  mostrarMensajePerfil('', '');
+}
+
 async function mostrarPortal() {
-  document.getElementById('auth-screen').hidden = true;
+  ocultarTodasLasPantallas();
   document.getElementById('portal-screen').hidden = false;
   document.getElementById('user-email').textContent = state.usuario ? state.usuario.email : '';
 
   await cargarBeneficios();
+  await cargarFavoritos();
   renderizarBeneficios();
-  await actualizarEnlaceAdmin();
-}
-
-async function actualizarEnlaceAdmin() {
-  const enlaceAdmin = document.getElementById('admin-link');
-  if (state.modoDemo || !state.usuario) {
-    enlaceAdmin.hidden = true;
-    return;
-  }
-
-  const { data, error } = await state.supabaseClient
-    .from('admins')
-    .select('email')
-    .eq('email', state.usuario.email)
-    .maybeSingle();
-
-  enlaceAdmin.hidden = Boolean(error) || !data;
 }
 
 /* ----------------------------------------------------------------------
-   9. EVENTOS
+   10. EVENTOS
    ---------------------------------------------------------------------- */
 function configurarEventos() {
   const form = document.getElementById('auth-form');
@@ -522,6 +687,8 @@ function configurarEventos() {
   const categoryFilters = document.getElementById('category-filters');
   const modal = document.getElementById('benefit-modal');
   const modalClose = document.getElementById('modal-close');
+  const profileForm = document.getElementById('profile-form');
+  const toggleFavoritos = document.getElementById('toggle-favoritos');
 
   form.addEventListener('submit', async (evento) => {
     evento.preventDefault();
@@ -544,6 +711,8 @@ function configurarEventos() {
 
   btnLogout.addEventListener('click', manejarCerrarSesion);
 
+  profileForm.addEventListener('submit', guardarPerfil);
+
   searchInput.addEventListener('input', (evento) => {
     state.textoBusqueda = evento.target.value;
     renderizarBeneficios();
@@ -564,6 +733,13 @@ function configurarEventos() {
     renderizarBeneficios();
   });
 
+  toggleFavoritos.addEventListener('click', () => {
+    state.soloFavoritos = !state.soloFavoritos;
+    toggleFavoritos.classList.toggle('active', state.soloFavoritos);
+    toggleFavoritos.setAttribute('aria-pressed', String(state.soloFavoritos));
+    renderizarBeneficios();
+  });
+
   modalClose.addEventListener('click', cerrarModalBeneficio);
   modal.addEventListener('click', (evento) => {
     if (evento.target === modal) cerrarModalBeneficio();
@@ -574,7 +750,7 @@ function configurarEventos() {
 }
 
 /* ----------------------------------------------------------------------
-   10. INICIALIZACIÓN DE LA APLICACIÓN
+   11. INICIALIZACIÓN DE LA APLICACIÓN
    ---------------------------------------------------------------------- */
 async function inicializarApp() {
   inicializarSupabase();
@@ -584,13 +760,14 @@ async function inicializarApp() {
     const { data } = await state.supabaseClient.auth.getSession();
     if (data && data.session) {
       state.usuario = data.session.user;
-      await mostrarPortal();
+      await despuesDeAutenticar();
       return;
     }
 
     state.supabaseClient.auth.onAuthStateChange((_evento, session) => {
       if (!session) {
         state.usuario = null;
+        state.perfil = null;
         mostrarAuth();
       }
     });
