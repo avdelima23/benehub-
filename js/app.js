@@ -670,6 +670,7 @@ async function mostrarPortal() {
   ocultarTodasLasPantallas();
   document.getElementById('portal-screen').hidden = false;
   document.getElementById('user-email').textContent = state.usuario ? state.usuario.email : '';
+  document.getElementById('admin-link').hidden = !state.perfil || state.perfil.rol !== 'administrador';
 
   await cargarBeneficios();
   await cargarFavoritos();
